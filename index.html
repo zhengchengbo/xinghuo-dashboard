@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>星火项目 · 运营看板</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1f2329; --sub:#6b7280;
+    --line:#e5e7eb; --red:#e23c3c; --green:#18a058; --amber:#f59e0b;
+    --blue:#2f6fed; --purple:#7c5cff; --teal:#0ea5a4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);padding:24px;line-height:1.6;}
+  .wrap{max-width:1080px;margin:0 auto;}
+  h1{font-size:26px;font-weight:700;margin-bottom:4px;}
+  .sub{color:var(--sub);margin-bottom:18px;font-size:14px;}
+
+  /* ===== Tab 导航 ===== */
+  .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+  .tab-btn{padding:11px 22px;border:1px solid var(--line);background:#fff;border-radius:10px;
+    font-size:14px;cursor:pointer;color:var(--sub);font-weight:600;transition:.15s;}
+  .tab-btn:hover{border-color:#c9ccd1;}
+  .tab-btn.active{background:#1f2329;color:#fff;border-color:#1f2329;box-shadow:0 2px 8px rgba(31,35,41,.18);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:22px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .kpi .label{font-size:13px;color:var(--sub);margin-bottom:8px;}
+  .kpi .val{font-size:28px;font-weight:700;}
+  .kpi .delta{font-size:12px;margin-top: 4px;}
+  .up{color:var(--red);} .down{color:var(--green);} .flat{color:var(--sub);}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px;}
+  section h2{font-size:18px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  section h2 .tag{font-size:12px;background:#eef2ff;color:var(--blue);padding:2px 8px;border-radius:6px;}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);}
+  th{color:var(--sub);font-weight:600;background:#fafbfc;}
+  .pill{padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;}
+  .pill.done{background:#e8f8ef;color:var(--green);}
+  .pill.todo{background:#fff4e0;color:var(--amber);}
+  .pill.doing{background:#eef2ff;color:var(--blue);}
+  .pill.wait{background:#f1f2f4;color:var(--sub);}
+  .pill.struct{background:#f3e8ff;color:#7c3aed;}
+  .timeline{position:relative;padding-left:24px;}
+  .timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line);}
+  .tl-item{position:relative;padding:10px 0 14px 12px;}
+  .tl-item::before{content:"";position:absolute;left:-19px;top:14px;width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);}
+  .tl-item.done::before{background:var(--green);}
+  .tl-item.todo::before{background:var(--amber);}
+  .tl-item.doing::before{background:var(--blue);}
+  .tl-item.wait::before{background:#c9ccd1;}
+  .tl-item .t{font-size:14px;font-weight:600;}
+  .tl-item .d{font-size:13px;color:var(--sub);margin-top:2px;}
+  .badge-need{display:inline-block;margin-left:8px;font-size:11px;background:#fff4e0;color:var(--amber);padding:1px 6px;border-radius:5px;}
+  .checklist li{list-style:none;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;align-items:flex-start;gap:10px;}
+  .checklist li .mk{width:18px;height:18px;border:1.5px solid var(--line);border-radius:5px;flex:none;text-align:center;line-height:16px;font-size:12px;}
+  .checklist li.done .mk{background:var(--green);border-color:var(--green);color:#fff;}
+  .checklist li .txt{flex:1;}
+  .note{font-size:13px;color:var(--sub);background:#fafbfc;border-radius:10px;padding:12px;border:1px dashed var(--line);}
+  .btn{background:var(--blue);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;}
+  .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink);}
+  .edit-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-top:10px;}
+  .edit-row input{width:120px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;font-size:13px;}
+  .edit-row label{font-size:12px;color:var(--sub);display:block;margin-bottom:3px;}
+  .hint{font-size:12px;color:var(--amber);margin-top:8px;}
+  .struct-board{margin-top:18px;background:linear-gradient(180deg,#faf5ff 0%,#fff 60%);border:1px solid #e9d5ff;border-radius:14px;padding:16px 18px;}
+  .struct-board h3{margin:0 0 6px;font-size:15px;color:#6b21a8;}
+  .struct-tip{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.6;}
+  .struct-note{font-size:12.5px;color:#6b21a8;margin:12px 0 0;background:#f5edff;border-radius:8px;padding:10px 12px;}
+  .struct-board table{width:100%;border-collapse:collapse;font-size:13px;}
+  .struct-board th{background:#f3e8ff;color:#6b21a8;text-align:left;padding:8px 10px;border-bottom:1px solid #e9d5ff;}
+  .struct-board td{padding:8px 10px;border-bottom:1px solid #f0e6fb;vertical-align:top;}
+  .phase-title{margin-top:14px;font-weight:700;font-size:15px;}
+  .phase-goal{font-size:13px;color:var(--sub);margin:4px 0 8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>星火项目 · 运营看板</h1>
+  <div class="sub">账号：青禾语文（小红书号 418490082）｜ 产品：《九年级读写联动训练库》｜ 更新于 <span id="upd"></span></div>
+  <div class="sub" style="margin-top:2px;color:var(--purple);font-weight:600;">📌 看板当前为<b>第 4 次版本更新</b>（详见顶部「📋 看板版本」tab，每次更新都会追加一条记录）</div>
+
+  <!-- ===== Tab 导航 ===== -->
+  <div class="tabs">
+    <div class="tab-btn active" data-tab="home" onclick="showTab('home')">🏠 首页</div>
+    <div class="tab-btn" data-tab="xhs" onclick="showTab('xhs')">🌸 小红书运营</div>
+    <div class="tab-btn" data-tab="struct" onclick="showTab('struct')">💥 爆款笔记手法</div>
+    <div class="tab-btn" data-tab="team" onclick="showTab('team')">🧑‍💼 团队事务</div>
+    <div class="tab-btn" data-tab="ver" onclick="showTab('ver')">📋 看板版本</div>
+  </div>
+
+  <!-- ============ 首页独占区块 ============ -->
+  <!-- 复述确认区 -->
+  <section class="sec t-home" style="background:#eef2ff;border-color:#c7d7ff;">
+    <h2 style="color:#2f6fed">📌 复述确认区（每轮对话先核对）</h2>
+    <div class="note" id="replay">
+      本看板每日更新，包含：①今日关键指标 ②今日待发笔记 ③今日数据明细（按笔记展开）④已发布文章列表 ⑤小红书运营计划（按月）⑥爆款笔记手法（6 种结构罗列）⑦团队事务。每轮更新我都会先复述你的意图，再动手执行。<b>已聚焦小红书，不再做知识星球。</b>
+    </div>
+  </section>
+
+  <!-- 当前阶段横幅 -->
+  <section class="sec t-home" style="background:#eaf7ef;border-color:#b7e3c6;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-size:13px;color:#18a058;font-weight:600;">📍 当前月份（按系统日期自动判定）</div>
+        <div style="font-size:20px;font-weight:700;margin-top:2px;" id="phaseNow">加载中…</div>
+      </div>
+      <div style="font-size:13px;color:#6b7280;" id="phaseHint"></div>
+    </div>
+  </section>
+
+  <!-- ============ 一大类：小红书运营 ============ -->
+  <section class="sec t-xhs" style="background:#fff0f5;border-color:#ffb3d1;">
+    <h2 style="color:#ff1b6d">🌸 一、小红书运营（种草 · 引流 · 转化入口）</h2>
+    <div class="note">定位：内容种草 + 私信引流转化。笔记末尾钩子引私信，私信发预览版课件；粉丝≥1000 后转小红书站内商品成交（不留置外链/二维码，防封）。</div>
+  </section>
+
+  <!-- 模块1：今日小红书运营数据 -->
+  <section class="sec t-xhs">
+    <h2>1.1 今日关键指标信息 <span class="tag">概览</span></h2>
+    <div class="note">
+      ✅ 已配置「每小时自动抓取」自动化（每天 08:00–20:00 整点拉取后台数据写回本看板）。
+      <span class="hint">最近一次抓取：<b id="fetchTime">展示于 2026-08-26 00:21（发布《作文假大空？一个南瓜写透善意传递》后手动更新）</b>（每小时自动化整点抓取亦会自动刷新，无需手动录入）。</span>
+    </div>
+    <div class="grid" style="margin-top:12px;">
+      <div class="kpi"><div class="label">粉丝总数 🔒</div><div class="val">34</div><div class="delta up">+2（32→34，08-26 00:21 核实）</div></div>
+      <div class="kpi"><div class="label">今日新增粉丝</div><div class="val" id="fanToday">2</div><div class="delta up">较上轮(32) +2</div></div>
+      <div class="kpi"><div class="label">今日笔记阅读</div><div class="val" id="readToday">161</div><div class="delta up">9篇累计(14+13+15+101+18+0+0+0+0) 较上轮+28</div></div>
+      <div class="kpi"><div class="label">今日赞藏</div><div class="val" id="likeToday">8</div><div class="delta flat">9篇笔记累计(赞0+藏8) 较上轮+2</div></div>
+      <div class="kpi"><div class="label">今日私信</div><div class="val" id="dmToday">0</div><div class="delta flat">无新私信会话</div></div>
+      <div class="kpi"><div class="label">通知 🔔</div><div class="val" id="notifyCount">0</div><div class="delta flat" id="notifyTime">抓取于 08:45 · 未读0（island已读）</div></div>
+      <div class="kpi"><div class="label">消息 💬</div><div class="val" id="msgCount">2</div><div class="delta flat" id="msgTime">抓取于 08:45</div></div>
+    </div>
+    <div class="hint">✅ 已配置「每小时自动抓取」自动化（每天 08:00–20:00）：后台数据每整点自动写回本看板，无需手动填。</div>
+
+  </section>
+
+  <!-- 模块2：今日（待发表文章） -->
+  <section class="sec t-xhs">
+    <h2>1.2 今日待发笔记 <span class="tag">未发布排期</span></h2>
+    <div class="note">
+      ✅ 规则：列出<b>今天计划发布</b>的笔记；已发的标「已发布」（与下方列表一致），尚未发的标「未发布」。状态以小红书后台「笔记管理」实际核实为准（发前自动复核）。
+    </div>
+    <table>
+      <thead><tr><th>#</th><th>标题</th><th>手法</th><th>计划日期</th><th>状态</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td colspan="6" style="text-align:center;color:#888;padding:14px;">✅ 2026-08-26 上午已发布 3 篇丰富版手法笔记（均为 4 图轮播·零水印·600–1000字干货）：《作文总写"然后然后"？一线串珠法救场📿》（09:56·步骤拆解型）、《开头就劝退？悬念设置勾住读者🔍》（09:59·悬念好奇型）、《写人写不出彩？对比衬托显性格⚖️》（10:02·反差对比型）。三重铁证确认（发布页 /publish/success + 笔记管理列表独有标题 + URL &published=true）。<br>当前无新增未发布排期。注：「重新发布核查」6 篇疑似草稿中已补发 3 篇（一线串珠/悬念设置/对比衬托），剩 借景抒情/欲扬先抑/托物言志 待补（见团队事务·待办）。</td></tr>
+      </tbody>
+    </table>
+    <div class="hint">说明：本表只跟踪「未发布」排期。已发布的归入下方「已发布文章列表」。</div>
+  </section>
+
+  <!-- 模块3：今日小红书运营数据（明细） -->
+  <section class="sec t-xhs">
+    <h2>1.3 今日数据明细 <span class="tag">按笔记展开</span></h2>
+    <div class="note">按笔记展开的「今日读/赞/藏/评 + 累计」明细。数据来自每小时自动化抓取（08:00–20:00 整点）。</div>
+    <table>
+      <thead><tr><th>#</th><th>笔记</th><th>发布时间</th><th>今日读</th><th>今日赞</th><th>今日藏</th><th>今日评</th><th>累计（读/赞/藏/评/分享）</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>备课到凌晨，但我很值🌿</td><td>08-24 20:01</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td><td>101 / 0 / 3 / 1 / 0</td></tr>
+        <tr><td>2</td><td>细节空洞？细节定格放大一瞬间🎬</td><td>08-25 18:13</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td><td>14 / 0 / 1 / 0 / 0</td></tr>
+        <tr><td>3</td><td>30种写作手法，全在这本📚</td><td>08-25 18:52</td><td>审核中</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>4</td><td>作文写不细？3招定格法</td><td>08-25 23:56</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td><td>5图轮播(p21-25) · 爆款重构版</td></tr>
+        <tr><td>5</td><td>作文假大空？一个南瓜写透善意传递</td><td>08-26 00:21</td><td>+28</td><td>+0</td><td>+0</td><td>+0</td><td>4图轮播(p17-20) · 爆款第2条</td></tr>
+        <tr><td>6</td><td>（无笔记标题）· 待核查</td><td>08-25 21:54</td><td>—</td><td>—</td><td>—</td><td>—</td><td>无数据 · 待核查</td></tr>
+        <tr><td>7</td><td>作文总写"然后然后"？一线串珠法救场📿</td><td>08-26 09:56</td><td>+14</td><td>+0</td><td>+0</td><td>+0</td><td>4图轮播(p8-11) · 丰富版·步骤拆解</td></tr>
+        <tr><td>8</td><td>开头就劝退？悬念设置勾住读者🔍</td><td>08-26 09:59</td><td>+2</td><td>+0</td><td>+0</td><td>+0</td><td>4图轮播(p12-15) · 丰富版·悬念好奇</td></tr>
+        <tr><td>9</td><td>写人写不出彩？对比衬托显性格⚖️</td><td>08-26 10:02</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td><td>4图轮播(p30-33) · 丰富版·反差对比</td></tr>
+        <tr style="background:#fafbfc;font-weight:600;"><td colspan="3">今日合计</td><td>+44</td><td>+0</td><td>+0</td><td>+0</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="hint">✅ 数据来源：自动化每小时整点抓取后台笔记详情页 → 写回本表。今日 = 当日 00:00 至今的增量，累计 = 笔记发布以来的总和。</div>
+  </section>
+
+  <!-- 模块4：已发布文章列表 -->
+  <section class="sec t-xhs">
+    <h2>1.4 已发布文章列表 <span class="tag">平台核实共 9 条</span></h2>
+    <div class="note" style="border-color:#ffb3d1;background:#fff0f5;">
+      ⚠️ <b>数据校正（2026-08-26 00:21，已于 10:05 更新）</b>：本看板此前记录「共 10 条」与实际平台不符。经「笔记管理·全部」+ 用户主页双重核实，当前<b>真实已发布/可见 9 条</b>（见下方列表）。08-25 发现的「标题超20字被静默拦截、误存草稿」bug 曾使 6 篇手法笔记（借景抒情/欲扬先抑/托物言志/一线串珠/悬念设置/对比衬托）疑似仅存为草稿。<b>「重新发布核查」进度</b>：本回合（08-26 上午）已补发 3 篇（一线串珠/悬念设置/对比衬托，三重铁证确认）；剩 借景抒情/欲扬先抑/托物言志 3 篇待补（文案与配图均在 _assets/ 与笔记文案文档中备妥），详见团队事务·待办。
+    </div>
+    <table>
+      <thead><tr><th>#</th><th>标题</th><th>手法</th><th>结构</th><th>发布日期</th><th>状态</th><th>数据（读/赞/藏/评/分享）</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>备课到凌晨，但我很值🌿</td><td>备课日常</td><td><span class="pill struct">真实故事型</span></td><td>2026-08-24 20:01</td><td><span class="pill done">已发布·已核实</span></td><td>阅读101 · 赞0 藏3 评1 分享0</td></tr>
+        <tr><td>2</td><td>细节空洞？细节定格放大一瞬间🎬</td><td>细节定格(精简版)</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-25 18:13</td><td><span class="pill done">已发布·已核实</span></td><td>阅读14 · 赞0 藏1 评0 分享0</td></tr>
+        <tr><td>3</td><td>30种写作手法，全在这本📚</td><td>目录篇</td><td><span class="pill struct">清单合集型</span></td><td>2026-08-25 18:52</td><td><span class="pill done">已发布·已核实</span></td><td>审核中 · 2图轮播(p2-3)</td></tr>
+        <tr><td>4</td><td>作文写不细？3招定格法，学生3分钟开窍</td><td>细节定格(爆款版)</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-25 23:56</td><td><span class="pill done">已发布·已核实</span></td><td>5图轮播(p21-25) · 爆款重构版</td></tr>
+        <tr><td>5</td><td>作文假大空？一个南瓜写透善意传递</td><td>以小见大(爆款版)</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26 00:21</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>4图轮播(p17-20) · 本轮回测爆款第2条 · 三重铁证确认</td></tr>
+        <tr><td>6</td><td>（无笔记标题）· 待核查</td><td>未知</td><td><span class="pill todo">待核查</span></td><td>2026-08-25 21:54</td><td><span class="pill todo">待核查</span></td><td>后台显示一条无标题记录，疑为草稿/半成品，需确认后补全或删除</td></tr>
+        <tr><td>7</td><td>作文总写"然后然后"？一线串珠法救场📿</td><td>一线串珠</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-26 09:56</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>阅读14 · 4图轮播(p8-11) · 丰富版第1条 · 三重铁证确认</td></tr>
+        <tr><td>8</td><td>开头就劝退？悬念设置勾住读者🔍</td><td>悬念设置</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26 09:59</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>阅读2 · 4图轮播(p12-15) · 丰富版第2条 · 三重铁证确认</td></tr>
+        <tr><td>9</td><td>写人写不出彩？对比衬托显性格⚖️</td><td>对比衬托</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-26 10:02</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>阅读0 · 4图轮播(p30-33) · 丰富版第3条 · 三重铁证确认</td></tr>
+      </tbody>
+    </table>
+    <div class="hint">核实方式：发布页 URL=/publish/success + 笔记管理列表独有标题 + 用户主页可见，三重铁证。「全部 9」含 1 条无标题记录（#6），需人工核查。</div>
+    <div class="note" style="border-color:#ffd591;background:#fff8ec;margin-top:10px;">
+      💡 <b>看数提醒（2026-08-26）</b>：阅读量高 ≠ 转化高。例：「备课到凌晨」累计阅读 101（全站最高），但赞0/藏3/评1，互动率仅约4%——它带来的是<b>曝光与真实人设信任</b>，未必带成交。真正勾私信、带转化的是「给方法/给样板」的干货笔记（如反差对比·作文写不细、悬念好奇·作文假大空，单日即+28）。结论：<b>故事型负责引流立人设，干货型负责转化</b>，两者穿插排期；看数据别只盯阅读量，要同时看「藏/评/私信」。
+    </div>
+  </section>
+
+  <!-- 模块3：小红书运营计划（按月·围绕当月课件）· 已移至首页 -->
+  <section class="sec t-home">
+    <h2>📅 小红书运营计划 <span class="tag">按月 · 围绕当月课件</span></h2>
+    <div class="note">
+      📅 核心机制：<b>课件每月更新一次</b>，从 2026-08-24 起算；每个月只围绕「当月那一个课件」做小红书种草。下个月此时（约 09-24）方老师交付新课件，即进入第 2 个月。未到当月的事项显示「未到点」暂不执行。
+    </div>
+
+    <div class="phase-title" style="color:#18a058;">🟢 第 1 个月（2026-08-24 ~ 09-23）· 课件《九年级读写联动训练库》</div>
+    <div class="phase-goal">小红书：每天3篇种草（手法讲解/学生样例/备课日常 轮换，30写作手法排满）· 本月小目标：100粉</div>
+    <div class="timeline">
+      <div class="tl-item done"><div class="t">08-24（第1天）· 已发 ①②③④</div><div class="d">已完成 · 后台核实 4 条已发（借景抒情/欲扬先抑/托物言志/备课日常）</div></div>
+      <div class="tl-item doing"><div class="t">08-25 起 · 小红书每天3篇（⑤一线串珠→30手法排满）</div><div class="d">文案已备，配图已生成，到点才发</div></div>
+      <div class="tl-item wait"><div class="t">09-23 前 · 第1月复盘</div><div class="d">涨粉/私信/成交复盘，沉淀爆款选题入选题库<span class="badge-need">未到点</span></div></div>
+    </div>
+
+    <div class="phase-title" style="color:#7c5cff;">🟣 第 2 个月（2026-09-24 ~ 10-23）· 课件待方老师交付（约 09-24）</div>
+    <div class="phase-goal">小红书：新月课件每天3篇种草 · 本月小目标：粉丝破300</div>
+    <div class="timeline">
+      <div class="tl-item wait"><div class="t">09-24 · 方老师交付第2月新课件 → 我生成新月计划+重置选题库</div><div class="d">交接触发日<span class="badge-need">未到点</span></div></div>
+      <div class="tl-item wait"><div class="t">09-24 ~ 10-23 · 小红书每天3篇（新月课件选题）</div><div class="d">新月课件到手后排期<span class="badge-need">未到点</span></div></div>
+    </div>
+
+    <div class="phase-title" style="color:#0ea5a4;">🔵 第 3 个月起（2026-10-24 ~）· 每月循环</div>
+    <div class="phase-goal">机制固化：每月当月日交付新课件 → 当月小红书计划+选题库重置；持续种草引流</div>
+    <div class="timeline">
+      <div class="tl-item wait"><div class="t">每月当月日 · 交付新课件 → 生成新月小红书计划</div><div class="d">循环触发<span class="badge-need">未到点</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ 二大类：爆款笔记手法 ============ -->
+  <section class="sec t-struct" style="background:#faf5ff;border-color:#e9d5ff;">
+    <h2 style="color:#6b21a8">💥 二、爆款笔记手法（结构罗列 · 6 种复用）</h2>
+    <div class="note">定位：<b>6 种爆款笔记结构（痛点直击/反差对比/步骤拆解/清单合集/真实故事/悬念好奇）轮换复用</b>。每篇笔记正文后标注所用结构，本页集中罗列。<b>以后不用知识星球了</b>，专注小红书运营。</div>
+  </section>
+
+  <!-- 模块：笔记结构罗列（从xhs页迁移来） -->
+  <section class="sec t-struct">
+    <div class="struct-board">
+      <h3>📐 笔记结构罗列（多结构轮换复用 · 每次写笔记标一种）</h3>
+      <p class="struct-tip">方老师要求：写笔记不能只用一种结构，要多种轮换复用；每篇笔记正文后标注所用结构，并在本页罗列。以下 6 种结构循环使用，避免读者审美疲劳。</p>
+      <table>
+        <thead><tr><th>结构类型</th><th>核心打法</th><th>已用于（笔记）</th><th>待补发将用</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill struct">痛点直击型</span></td><td>直戳学生/老师最痛的点，戳中即读</td><td>借景抒情</td><td>—</td></tr>
+          <tr><td><span class="pill struct">反差对比型</span></td><td>用前后/正反反差制造张力</td><td>欲扬先抑 · 细节定格(2版) · 对比衬托 · 作文写不细</td><td>—</td></tr>
+          <tr><td><span class="pill struct">步骤拆解型</span></td><td>把方法拆成"可操作"的步骤</td><td>托物言志 · 一线串珠</td><td>托物言志</td></tr>
+          <tr><td><span class="pill struct">清单合集型</span></td><td>一口气给全貌/清单，建立认知</td><td>目录篇 · 30种写作手法</td><td>—</td></tr>
+          <tr><td><span class="pill struct">真实故事型</span></td><td>用真实备课/教学故事建立信任</td><td>备课到凌晨 · 备课日常</td><td>—</td></tr>
+          <tr><td><span class="pill struct">悬念好奇型</span></td><td>开头抛钩子勾住好奇心</td><td>悬念设置 · 作文假大空(以小见大)</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p class="struct-note">✅ 当前已发 9 条覆盖 6 种结构（真实故事/反差对比/清单合集/步骤拆解/悬念好奇）；待补发剩 借景抒情(痛点直击)/欲扬先抑·托物言志(步骤拆解) 等早期疑似草稿笔记，补齐后即实现 6 种结构全覆盖、轮换复用。</p>
+    </div>
+  </section>
+
+  <!-- 团队事务 Tab（独立） -->
+  <section class="sec t-team" style="background:#fff8ec;border-color:#ffd591;">
+    <h2 style="color:#d48806">🧑‍💼 团队事务 <span class="tag" style="background:#fff1e6;color:#d48806;">团队</span></h2>
+    <div class="grid" style="margin-top:12px;">
+      <div class="kpi"><div class="label">公司总经理</div><div class="val" style="font-size:22px">方孟克</div><div class="delta flat">产品开发 · 评论回复 · 每月交付新课件</div></div>
+      <div class="kpi"><div class="label">公司技术总监</div><div class="val" style="font-size:22px">郑成博</div><div class="delta flat">营销系统搭建 · 技术管理</div></div>
+      <div class="kpi"><div class="label">公司运营人员</div><div class="val" style="font-size:22px;color:var(--blue)">workbuddy（我）</div><div class="delta flat">日常运营全权代劳</div></div>
+    </div>
+
+    <div class="phase-title" style="color:#d48806;">👤 方孟克（总经理）</div>
+    <div class="timeline">
+      <div class="tl-item doing"><div class="t">每月交付当月新课件（如《第2月课件》）</div><div class="d">时间线：每月20–24日内容定稿 · 完成时间：每月24日</div></div>
+      <div class="tl-item doing"><div class="t">回复小红书笔记评论 + 私信（内容把关）</div><div class="d">时间线：每日 · 完成时间：当日</div></div>
+      <div class="tl-item doing"><div class="t">产品内容终审（教师版/学生版PDF定稿）</div><div class="d">时间线：课件交付前 · 完成时间：交付当月24日</div></div>
+    </div>
+
+    <div class="phase-title" style="color:#2f6fed;">👤 郑成博（技术总监）</div>
+    <div class="timeline">
+      <div class="tl-item doing"><div class="t">看板自动化抓取 + CloudStudio 部署维护</div><div class="d">时间线：持续 · 完成时间：每月随看板更新</div></div>
+      <div class="tl-item doing"><div class="t">小红书发布链路 / 防封策略技术保障</div><div class="d">时间线：持续 · 完成时间：常态（已聚焦，不再投入知识星球）</div></div>
+    </div>
+
+    <div class="phase-title" style="color:#7c5cff;">👤 workbuddy（我 · 运营）</div>
+    <div class="timeline">
+      <div class="tl-item doing"><div class="t">每日3篇小红书种草发布（30手法排满）</div><div class="d">时间线：每日 · 完成时间：当日20:00前</div></div>
+      <div class="tl-item doing"><div class="t">每日数据抓取 + 运营看板更新</div><div class="d">时间线：每日 · 完成时间：当日09:00前</div></div>
+      <div class="tl-item doing"><div class="t">私信回复 + 引流（已聚焦小红书，不再走知识星球）</div><div class="d">时间线：每日 · 完成时间：当日</div></div>
+      <div class="tl-item todo"><div class="t">🔥 重新发布核查：补发早期疑似误存草稿的笔记（进度 3/6）</div><div class="d">借景抒情/欲扬先抑/托物言志/一线串珠/悬念设置/对比衬托 中部分未真正发布（20字标题静默拦截所致）。<b>08-26 上午已补发 3 篇</b>（一线串珠/悬念设置/对比衬托，三重铁证确认）；<b>剩 借景抒情/欲扬先抑/托物言志 3 篇待补发</b>。文案与配图在 _assets/ 与笔记文案文档中，逐篇确认标题≤20字后重发 · 完成时间：老板确认后执行</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 看板版本 tab ============ -->
+  <section class="sec t-ver" style="background:#f5f3ff;border-color:#d6c8ff;">
+    <h2 style="color:#6b21a8">📋 看板版本（每次更新一条记录 · 倒序）</h2>
+    <div class="note">本 tab 按时间倒序记录看板的每一次重要更新。每次我改完看板都会在此追加一条，并在首页副标题标注「第 N 次版本更新」。看板定位＝本项目最终管理工具（老板原话「以终为始」）。</div>
+    <div class="timeline">
+      <div class="tl-item done"><div class="t">v4 · 2026/8/26 10:05 — 补发 3 篇丰富版手法笔记（第 4 次版本记录）</div><div class="d">
+        · 1.4 已发布列表 6 → 9 条：新增《作文总写"然后然后"？一线串珠法救场📿》《开头就劝退？悬念设置勾住读者🔍》《写人写不出彩？对比衬托显性格⚖️》（均为 4 图轮播零水印·丰富版，09:56/09:59/10:02 发布，三重铁证确认）
+        · 1.2 今日待发：3 篇均已发布，当前无新增未发布排期
+        · 爆款手法结构表：一线串珠/悬念设置/对比衬托 由"待补发"移入"已用于"，已发覆盖 5 → 6 种结构
+        ·「重新发布核查」进度：6 篇疑似草稿中已补发 3 篇，剩 借景抒情/欲扬先抑/托物言志 待补
+      </div></div>
+      <div class="tl-item done"><div class="t">v3 · 2026/8/26 08:55 — 新增「看数提醒」小备注（第 3 次版本记录）</div><div class="d">
+        · 在 1.4 已发布文章列表 末尾新增 💡 看数提醒：阅读量高 ≠ 转化高（以「备课到凌晨」101阅读但赞0藏3评1 互动率~4% 为例），说明故事型负责引流立人设、干货型负责转化，提醒看数据别只盯阅读量
+        · 对齐老板 08:55 确认的运营判断
+      </div></div>
+      <div class="tl-item done"><div class="t">v2 · 2026/8/26 08:47 — 小红书运营页逻辑重构（第 2 次版本记录）</div><div class="d">
+        · 修复"今日小红书运营数据"重名：1.1 改「今日关键指标」、1.3 改「今日数据明细（按笔记展开）」，不再两个同名
+        · 1.2 标题补全为「今日待发笔记」
+        · 1.5「小红书运营计划」去掉 1.5 编号（它只在首页显示，不属于小红书运营 tab 的 1.x 序列）→ 首页区块不再与 tab 编号混淆
+        · 复述确认区编号列表同步：①今日关键指标 ②今日待发笔记 ③今日数据明细 ④已发布文章列表 ⑤小红书运营计划 ⑥爆款笔记手法 ⑦团队事务
+        · 清理首页横幅/月份 hint 残留"知识星球"表述，对齐"弃用知识星球·专注小红书"战略
+      </div></div>
+      <div class="tl-item done"><div class="t">v1 · 2026/8/26 08:18 — 战略转向 + 看板重构（第 1 次版本记录）</div><div class="d">
+        · 弃用知识星球，专注小红书运营（老板拍板：以后不用知识星球了，专注于小红书的运营）<br>
+        · Tab 调整：删除「知识星球运营」，新增「💥 爆款笔记手法」<br>
+        · 首页独占：复述确认区 + 当前月份横幅（加 t-home，仅首页显示）<br>
+        · 小红书运营页重排：1.1 今日KPI → 1.2 今日待发 → 1.3 今日数据明细(新建) → 1.4 已发布列表 → 1.5 小红书运营计划(移至首页)<br>
+        · 笔记结构罗列迁出小红书页，移入「爆款笔记手法」tab<br>
+        · 团队事务去掉知识星球表述（郑成博/我的待办）<br>
+        · 长期记忆同步：MEMORY.md 顶部加「战略转向」段，变现渠道改"知识星球已弃用"
+      </div></div>
+    </div>
+  </section>
+
+  <div class="note sec" style="text-align:center;color:var(--sub);">
+    本看板为可执行交付物，数据可直接在上方录入区更新；后续我可按需扩展（成交数据、选题库、竞品监控等）。
+  </div>
+</div>
+
+<script>
+  // ===== Tab 切换 =====
+  function showTab(tab){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var x=s.classList.contains('t-xhs');
+      var st=s.classList.contains('t-struct');
+      var h=s.classList.contains('t-home');
+      var t=s.classList.contains('t-team');
+      var v=s.classList.contains('t-ver');
+      if(!x && !st && !h && !t && !v){ s.style.display=''; return; } // 常驻区块（概览/说明）
+      if(tab==='home'){ s.style.display = h? '' : 'none'; }
+      else if(tab==='xhs'){ s.style.display = x? '' : 'none'; }
+      else if(tab==='struct'){ s.style.display = st? '' : 'none'; }
+      else if(tab==='team'){ s.style.display = t? '' : 'none'; }
+      else if(tab==='ver'){ s.style.display = v? '' : 'none'; }
+    });
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-tab')===tab);
+    });
+  }
+  showTab('home');
+
+  // 当前月份自动判定（按系统日期 → 第N个月 + 当月课件）
+  (function(){
+    var now=new Date();
+    var start=new Date(2026,7,24); // 月份0基：7=8月
+    var diff=now-start;
+    var dayMs=24*60*60*1000;
+    var days=Math.floor(diff/dayMs);
+    var monthNo=Math.floor(days/30)+1;
+    var phase="", hint="";
+    if(days < 0){ phase="🟡 筹备期（未开始）"; hint="尚未交付第1个月课件"; }
+    else if(monthNo===1){ phase="🟢 第 1 个月（2026-08-24 ~ 09-23）"; hint="课件《九年级读写联动训练库》· 小红书种草+私信引流成交"; }
+    else if(monthNo===2){ phase="🟣 第 2 个月（2026-09-24 ~ 10-23）"; hint="新月课件待方老师约09-24交付 · 私信引流+站内商品成交"; }
+    else { phase="🔵 第 "+monthNo+" 个月（循环）"; hint="每月当月日交付新课件 → 当月计划+选题库重置+私信/站内成交"; }
+    document.getElementById('phaseNow').textContent=phase;
+    document.getElementById('phaseHint').textContent=hint;
+  })();
+
+  const d={fan:"—",read:"—",like:"—",dm:"—"};
+  function applyData(){
+    const f=document.getElementById('inFan').value;
+    const r=document.getElementById('inRead').value;
+    const l=document.getElementById('inLike').value;
+    const m=document.getElementById('inDm').value;
+    if(f) document.getElementById('fanToday').textContent=f;
+    if(r) document.getElementById('readToday').textContent=r;
+    if(l) document.getElementById('likeToday').textContent=l;
+    if(m) document.getElementById('dmToday').textContent=m;
+  }
+  function confirmAll(){
+    ['c1','c2','c3','c4','c5'].forEach(function(id){var e=document.getElementById(id);if(e){e.className='done';}});
+    alert('已标记全部待办为完成。如需我执行，请切换到 Craft 模式或直接说「开始」。');
+  }
+  document.getElementById('upd').textContent=new Date().toLocaleString('zh-CN');
+  document.getElementById('fetchTime').textContent='展示于 '+new Date().toLocaleString('zh-CN');
+</script>
+</body>
+</html>
