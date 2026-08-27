@@ -39,6 +39,7 @@
   .pill{padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;}
   .pill.done{background:#e8f8ef;color:var(--green);}
   .pill.todo{background:#fff4e0;color:var(--amber);}
+  .pill.repub{background:#e6f0ff;color:#1d6fd0;}
   .pill.doing{background:#eef2ff;color:var(--blue);}
   .pill.wait{background:#f1f2f4;color:var(--sub);}
   .pill.struct{background:#f3e8ff;color:#7c3aed;}
@@ -79,7 +80,7 @@
 <div class="wrap">
   <h1>星火项目 · 运营看板</h1>
   <div class="sub">账号：青禾语文（小红书号 418490082）｜ 产品：《九年级读写联动训练库》｜ 更新于 <span id="upd"></span></div>
-  <div class="sub" style="margin-top:2px;color:var(--purple);font-weight:600;">📌 看板当前为<b>第 23 次版本更新</b>（详见顶部「📋 看板版本」tab，每次更新都会追加一条记录）</div>
+  <div class="sub" style="margin-top:2px;color:var(--purple);font-weight:600;">📌 看板当前为<b>第 24 次版本更新</b>（详见顶部「📋 看板版本」tab，每次更新都会追加一条记录）</div>
 
   <!-- ===== Tab 导航 ===== -->
   <div class="tabs">
@@ -118,34 +119,45 @@
 
   <!-- 模块4：已发布文章列表 -->
   <section class="sec t-xhs">
-    <h2>1.3 已发布文章列表 <span class="tag">图文10条 + 长文7篇 = 17条</span></h2>
-    <div class="note" style="border-color:#ffb3d1;background:#fff0f5;">
-      ⚠️ <b>数据校正（2026-08-26 00:21，已于 10:05 更新）</b>：本看板此前记录「共 10 条」与实际平台不符。经「笔记管理·全部」+ 用户主页双重核实，当前<b>真实已发布/可见 10 条</b>（见下方列表；含 08-26 13:41 发布的首篇长文）。08-25 发现的「标题超20字被静默拦截、误存草稿」bug 曾使 6 篇手法笔记（借景抒情/欲扬先抑/托物言志/一线串珠/悬念设置/对比衬托）疑似仅存为草稿。<b>「重新发布核查」进度</b>：本回合（08-26 上午）已补发 3 篇（一线串珠/悬念设置/对比衬托，三重铁证确认）；剩 借景抒情/欲扬先抑/托物言志 3 篇待补（文案与配图均在 _assets/ 与笔记文案文档中备妥），详见团队事务·待办。
+    <h2>1.3 已发布文章列表 <span class="tag">新号发布 0 条 · 老号归档 17 条（已封·失效）</span></h2>
+    <div class="note" style="border-color:#c7d7ff;background:#eef2ff;">
+      🛡️ <b>新号运营中</b>：旧号"青禾语文"(418490082) 已于 08-27 被封，下方「老号归档」17 条为<b>旧号已发布内容（已随账号封禁失效）</b>，仅作归档参考、<b>不计入新号发布数</b>。新号发布从 <b>0 条</b> 起，养号期结束后开始累计（见「🟢 新号发布」区）。
     </div>
+
+    <h3 style="margin:16px 0 8px;color:#15803d;">🟢 新号发布（运营中 · 计数从 0 起）</h3>
     <table>
-      <thead><tr><th>#</th><th>标题</th><th>手法</th><th>结构</th><th>发布日期</th><th>状态</th><th>数据（读/赞/藏/评/分享）</th><th>形态</th></tr></thead>
+      <thead><tr><th>#</th><th>标题</th><th>手法</th><th>结构</th><th>发布日期</th><th>状态</th><th>备注</th><th>形态</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>备课到凌晨，但我很值🌿</td><td>备课日常</td><td><span class="pill struct">真实故事型</span></td><td>2026-08-24 20:01</td><td><span class="pill done">已发布·已核实</span></td><td>阅读101 · 赞0 藏3 评1 分享0</td><td>图文</td></tr>
-        <tr><td>2</td><td>细节空洞？细节定格放大一瞬间🎬</td><td>细节定格(精简版)</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-25 18:13</td><td><span class="pill done">已发布·已核实</span></td><td>阅读14 · 赞0 藏1 评0 分享0</td><td>图文</td></tr>
-        <tr><td>3</td><td>30种写作手法，全在这本📚</td><td>目录篇</td><td><span class="pill struct">清单合集型</span></td><td>2026-08-25 18:52</td><td><span class="pill done">已发布·已核实</span></td><td>审核中 · 2图轮播(p2-3)</td><td>图文</td></tr>
-        <tr><td>4</td><td>作文写不细？3招定格法，学生3分钟开窍</td><td>细节定格(爆款版)</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-25 23:56</td><td><span class="pill done">已发布·已核实</span></td><td>5图轮播(p21-25) · 爆款重构版</td><td>图文</td></tr>
-        <tr><td>5</td><td>作文假大空？一个南瓜写透善意传递</td><td>以小见大(爆款版)</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26 00:21</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>4图轮播(p17-20) · 本轮回测爆款第2条 · 三重铁证确认</td><td>图文</td></tr>
-        <tr><td>6</td><td>（无笔记标题）· 待核查</td><td>未知</td><td><span class="pill todo">待核查</span></td><td>2026-08-25 21:54</td><td><span class="pill todo">待核查</span></td><td>后台显示一条无标题记录，疑为草稿/半成品，需确认后补全或删除</td><td>未知</td></tr>
-        <tr><td>7</td><td>作文总写"然后然后"？一线串珠法救场📿</td><td>一线串珠</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-26 09:56</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>阅读14 · 4图轮播(p8-11) · 丰富版第1条 · 三重铁证确认</td><td>图文</td></tr>
-        <tr><td>8</td><td>开头就劝退？悬念设置勾住读者🔍</td><td>悬念设置</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26 09:59</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>阅读2 · 4图轮播(p12-15) · 丰富版第2条 · 三重铁证确认</td><td>图文</td></tr>
-        <tr><td>9</td><td>写人写不出彩？对比衬托显性格⚖️</td><td>对比衬托</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-26 10:02</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>阅读0 · 4图轮播(p30-33) · 丰富版第3条 · 三重铁证确认</td><td>图文</td></tr>
-        <tr style="background:#f3f0ff;"><td>10</td><td>带完三届毕业班，30种手法一张表（长文）</td><td>30手法总表</td><td><span class="pill struct">清单合集型</span></td><td>2026-08-26 13:41</td><td><span class="pill done">已发布·已核实 ✅</span></td><td>长文·936字·6页 · 首篇长文 · 三重铁证确认</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>11</td><td>欲扬先抑：先贬后褒藏深情</td><td>欲扬先抑</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-26</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>12</td><td>一线串珠：用一条线串起全文</td><td>一线串珠</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-26</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>13</td><td>悬念设置：开头就勾住人</td><td>悬念设置</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>14</td><td>以小见大：小物件见大主题</td><td>以小见大</td><td><span class="pill struct">真实故事型</span></td><td>2026-08-27</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>15</td><td>细节定格：慢镜头写活人</td><td>细节定格</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-27</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>16</td><td>借景抒情：把情写进景里</td><td>借景抒情</td><td><span class="pill struct">痛点直击型</span></td><td>2026-08-27</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传</td><td>长文</td></tr>
-        <tr style="background:#eaf7ef;"><td>17</td><td>对比衬托：反差显性格</td><td>对比衬托</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-27</td><td><span class="pill done">已上传 ✅</span></td><td>长文拆解课·老板亲传（A方案今日独传1篇）</td><td>长文</td></tr>
+        <tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:20px;">新号养号期（前 1–2 周）尚未发布 · 发布后此处累计，从 0 起</td></tr>
       </tbody>
     </table>
-    <div class="hint">核实方式：发布页 URL=/publish/success + 笔记管理列表独有标题 + 用户主页可见，三重铁证。「全部 10」含 1 条无标题记录（#6），需人工核查。</div>
-    <!-- 数据备注框：已隐藏 -->
+
+    <details style="margin-top:18px;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;background:#fafafa;">
+      <summary style="cursor:pointer;font-weight:700;color:#b91c1c;">📦 老号归档（已封·418490082）· 17 条旧号已发布内容 — 点击展开</summary>
+      <table style="margin-top:12px;">
+        <thead><tr><th>#</th><th>标题</th><th>手法</th><th>结构</th><th>发布日期</th><th>状态</th><th>备注</th><th>形态</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>备课到凌晨，但我很值🌿</td><td>备课日常</td><td><span class="pill struct">真实故事型</span></td><td>2026-08-24 20:01</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>2</td><td>细节空洞？细节定格放大一瞬间🎬</td><td>细节定格(精简版)</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-25 18:13</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>3</td><td>30种写作手法，全在这本📚</td><td>目录篇</td><td><span class="pill struct">清单合集型</span></td><td>2026-08-25 18:52</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>4</td><td>作文写不细？3招定格法，学生3分钟开窍</td><td>细节定格(爆款版)</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-25 23:56</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>5</td><td>作文假大空？一个南瓜写透善意传递</td><td>以小见大(爆款版)</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26 00:21</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>6</td><td>（无笔记标题）· 待核查</td><td>未知</td><td><span class="pill todo">待核查</span></td><td>2026-08-25 21:54</td><td><span class="pill wait">旧号·已封</span></td><td>旧号·无标题记录·随账号失效</td><td>未知</td></tr>
+          <tr><td>7</td><td>作文总写"然后然后"？一线串珠法救场📿</td><td>一线串珠</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-26 09:56</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>8</td><td>开头就劝退？悬念设置勾住读者🔍</td><td>悬念设置</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26 09:59</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr><td>9</td><td>写人写不出彩？对比衬托显性格⚖️</td><td>对比衬托</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-26 10:02</td><td><span class="pill wait">旧号·已封</span></td><td>旧号已发布·随账号失效</td><td>图文</td></tr>
+          <tr style="background:#f3f0ff;"><td>10</td><td>带完三届毕业班，30种手法一张表（长文）</td><td>30手法总表</td><td><span class="pill struct">清单合集型</span></td><td>2026-08-26 13:41</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>11</td><td>欲扬先抑：先贬后褒藏深情</td><td>欲扬先抑</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-26</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>12</td><td>一线串珠：用一条线串起全文</td><td>一线串珠</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-26</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>13</td><td>悬念设置：开头就勾住人</td><td>悬念设置</td><td><span class="pill struct">悬念好奇型</span></td><td>2026-08-26</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>14</td><td>以小见大：小物件见大主题</td><td>以小见大</td><td><span class="pill struct">真实故事型</span></td><td>2026-08-27</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>15</td><td>细节定格：慢镜头写活人</td><td>细节定格</td><td><span class="pill struct">步骤拆解型</span></td><td>2026-08-27</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>16</td><td>借景抒情：把情写进景里</td><td>借景抒情</td><td><span class="pill struct">痛点直击型</span></td><td>2026-08-27</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+          <tr style="background:#eaf7ef;"><td>17</td><td>对比衬托：反差显性格</td><td>对比衬托</td><td><span class="pill struct">反差对比型</span></td><td>2026-08-27</td><td><span class="pill wait">旧号·已封</span></td><td>旧号长文·随账号失效</td><td>长文</td></tr>
+        </tbody>
+      </table>
+      <div class="hint">⚠️ 旧号内容已随账号封禁失效，不可在新号直接搬运；新号发布须按《新号合规运营SOP》重新发布并过合规自检5条。</div>
+    </details>
   </section>
 
   <!-- 模块：长文系列进度（用户亲自上传） -->
@@ -157,13 +169,13 @@
     <table>
       <thead><tr><th>课次</th><th>手法</th><th>标题</th><th>结构</th><th>状态</th><th>备注</th></tr></thead>
       <tbody>
-        <tr><td>课01</td><td>欲扬先抑</td><td>欲扬先抑：先贬后褒藏深情</td><td><span class="pill struct">反差对比型</span></td><td><span class="pill done">已上传 ✅</span></td><td>老板 08-26 亲传 · 长文Word · <b>爆款：反差对比型</b></td></tr>
-        <tr><td>课02</td><td>一线串珠</td><td>一线串珠：用一条线串起全文</td><td><span class="pill struct">步骤拆解型</span></td><td><span class="pill done">已上传 ✅</span></td><td>老板 08-26 亲传 · 长文Word · <b>爆款：步骤拆解型</b></td></tr>
-        <tr><td>课03</td><td>悬念设置</td><td>悬念设置：开头就勾住人</td><td><span class="pill struct">悬念好奇型</span></td><td><span class="pill done">已上传 ✅</span></td><td>老板 08-26 亲传 · 长文统一版Word · <b>爆款：悬念好奇型</b></td></tr>
-        <tr><td>课04</td><td>以小见大</td><td>以小见大：小物件见大主题</td><td><span class="pill struct">真实故事型</span></td><td><span class="pill done">已上传 ✅</span></td><td>老板 08-27 亲传 · 长文统一版Word · <b>爆款：真实故事型</b></td></tr>
-        <tr><td>课05</td><td>细节定格</td><td>细节定格：慢镜头写活人</td><td><span class="pill struct">步骤拆解型</span></td><td><span class="pill done">已上传 ✅</span></td><td>老板 08-27 亲传 · 长文统一版Word · <b>爆款：步骤拆解型</b></td></tr>
-        <tr><td>课06</td><td>借景抒情</td><td>借景抒情：把情写进景里</td><td><span class="pill struct">痛点直击型</span></td><td><span class="pill done">已上传 ✅</span></td><td>老板 08-27 亲传 · 长文统一版Word · <b>爆款：痛点直击型</b></td></tr>
-        <tr><td>课07</td><td>对比衬托</td><td>对比衬托：反差显性格</td><td><span class="pill struct">反差对比型</span></td><td><span class="pill done">已上传 ✅</span></td><td>任务一增产(08-27) · <b>已上传 ✅</b>（老板 08-27 亲传，原定今日独传1篇） · <b>爆款：反差对比型</b></td></tr>
+        <tr><td>课01</td><td>欲扬先抑</td><td>欲扬先抑：先贬后褒藏深情</td><td><span class="pill struct">反差对比型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发 · 老板 08-26 亲传 · 长文Word · <b>爆款：反差对比型</b></td></tr>
+        <tr><td>课02</td><td>一线串珠</td><td>一线串珠：用一条线串起全文</td><td><span class="pill struct">步骤拆解型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发 · 老板 08-26 亲传 · 长文Word · <b>爆款：步骤拆解型</b></td></tr>
+        <tr><td>课03</td><td>悬念设置</td><td>悬念设置：开头就勾住人</td><td><span class="pill struct">悬念好奇型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发 · 老板 08-26 亲传 · 长文统一版Word · <b>爆款：悬念好奇型</b></td></tr>
+        <tr><td>课04</td><td>以小见大</td><td>以小见大：小物件见大主题</td><td><span class="pill struct">真实故事型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发 · 老板 08-27 亲传 · 长文统一版Word · <b>爆款：真实故事型</b></td></tr>
+        <tr><td>课05</td><td>细节定格</td><td>细节定格：慢镜头写活人</td><td><span class="pill struct">步骤拆解型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发 · 老板 08-27 亲传 · 长文统一版Word · <b>爆款：步骤拆解型</b></td></tr>
+        <tr><td>课06</td><td>借景抒情</td><td>借景抒情：把情写进景里</td><td><span class="pill struct">痛点直击型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发 · 老板 08-27 亲传 · 长文统一版Word · <b>爆款：痛点直击型</b></td></tr>
+        <tr><td>课07</td><td>对比衬托</td><td>对比衬托：反差显性格</td><td><span class="pill struct">反差对比型</span></td><td><span class="pill repub">待新号重发</span></td><td>旧号已发·新号需重发（老板 08-27 亲传，原定今日独传1篇） · <b>爆款：反差对比型</b></td></tr>
         <tr><td>课08</td><td>首尾呼应</td><td>首尾呼应：开头结尾遥相呼应</td><td><span class="pill struct">清单合集型</span></td><td><span class="pill todo">内容就绪·待上传</span></td><td>任务一增产(08-27) · <b>库存·顺延后续发</b> · <b>爆款：清单合集型</b></td></tr>
         <tr><td>课09</td><td>插叙</td><td>插叙：插入过往片段</td><td><span class="pill struct">步骤拆解型</span></td><td><span class="pill todo">内容就绪·待上传</span></td><td>任务一增产(08-27) · <b>库存·顺延后续发</b> · <b>爆款：步骤拆解型</b></td></tr>
         <tr><td>课10</td><td>伏笔照应</td><td>伏笔照应：前文埋线后文揭晓</td><td><span class="pill struct">悬念好奇型</span></td><td><span class="pill todo">内容就绪·待上传</span></td><td>任务一增产(08-27) · <b>库存·顺延后续发</b> · <b>爆款：悬念好奇型</b></td></tr>
@@ -198,13 +210,10 @@
     <div class="phase-title" style="color:#18a058;">🟢 第 1 个月（2026-08-24 ~ 09-23）· 课件《九年级读写联动训练库》</div>
     <div class="phase-goal">🛡️ 新号已开通·运营中：小红书站内合规闭环（专业号+商品卡成交，零站外引导）。内容：全改长文·按课序 01→30 推进「30写作手法」，每篇套 6 种爆款结构之一轮换 · 养号&内容运营期（发前过合规自检，不碰站外）</div>
     <div class="timeline">
-      <div class="tl-item done"><div class="t">08-24（第1天）· 已发 ①②③④</div><div class="d">已完成 · 发布 借景抒情/欲扬先抑/托物言志/备课日常 共 4 条</div></div>
-      <div class="tl-item done"><div class="t">08-25（第2天）· 已发 ①②③</div><div class="d">已完成 · 发布 细节定格(精简版)/目录篇/细节定格(爆款版) 共 3 条</div></div>
-      <div class="tl-item done"><div class="t">08-26（第3天）· 已发 ①②③④</div><div class="d">已完成 · 发布 以小见大/一线串珠/悬念设置/对比衬托 共 4 条（截至10:02）</div></div>
       <div class="tl-item done"><div class="t">08-24～08-27 主号"青禾语文"(418490082) 运营期（已封号·归档）</div><div class="d">主号累计发 图文10＋长文7＝17条；08-27 因小红书违规营销专项被封号。该周期内容/排期留作新号参考，账号状态＝已封</div></div>
       <div class="tl-item done"><div class="t">08-27 晚 · 老板决策：不申诉，重开新号（站内合规闭环＋设备隔离）</div><div class="d">战略转向：放弃"私信/知识星球站外成交"老路；新号只走小红书站内商品卡成交</div></div>
       <div class="tl-item done"><div class="t">新号已开通（老板本人完成：设备/手机号/网络隔离 + 实名 + 专业号店铺 + 个体/企业资质）</div><div class="d">星火不介入开通环节（平台强制本人操作）；开通后即进入养号&内容运营期</div></div>
-      <div class="tl-item doing"><div class="t">新号养号 & 内容运营中 · 全改长文·站内合规闭环</div><div class="d">养号期(前1-2周)不发商品不提成交；内容按课序01→30推进，每篇过合规自检5条（零站外引导）；课01–10 长文Word 留库存直接复用</div></div>
+      <div class="tl-item doing"><div class="t">新号养号 & 内容运营中 · 全改长文·站内合规闭环</div><div class="d">养号期(前1-2周)不发商品不提成交；内容按课序01→30推进，每篇过合规自检5条（零站外引导）；课01–10 长文Word 留库存直接复用 · 新号发布计数从 0 起（旧号17条已封归档，不计入）</div></div>
       <div class="tl-item wait"><div class="t">09-23 前 · 第1月复盘</div><div class="d">涨粉/私信/成交复盘，沉淀爆款选题入选题库<span class="badge-need">未到点</span></div></div>
     </div>
 
@@ -288,6 +297,7 @@
     <h2 style="color:#6b21a8">📋 看板版本（每次更新一条记录 · 倒序）</h2>
     <div class="note">本 tab 按时间倒序记录看板的每一次重要更新。每次我改完看板都会在此追加一条，并在首页副标题标注「第 N 次版本更新」。看板定位＝本项目最终管理工具（老板原话「以终为始」）。</div>
     <div class="timeline">
+      <div class="tl-item done"><div class="t">v24 · 2026/8/27 17:21 — 老板要"清爽"：1.3 旧号17条收进「老号归档(已封)」折叠区、首页只显新号发布(从0起)；1.4 课01–07 翻「待新号重发」；运营计划删旧号每日行；移除旧号读赞藏列(呼应v21禁抓数据)（第 24 次版本记录）</div><div class="d">· 1.3：拆为「🟢 新号发布(0条·养号期)」＋「📦 老号归档(已封·418490082)·17条」折叠区(默认收起)；旧号数据列移除<br>· 1.4：课01–07 状态 已上传✅→待新号重发(repub)，备注补"旧号已发·新号需重发"<br>· 📅 运营计划：删 08-24/25/26 旧号每日已发行(已封归档)，doing 项补"新号发布计数从0起"<br>· 首页副标题→「第 24 次版本更新」</div></div>
       <div class="tl-item done"><div class="t">v23 · 2026/8/27 17:12 — 老板报"新号已开通"：看板全面翻成「新号运营中」状态（第 23 次版本记录）</div><div class="d">· 复述确认区：主号被封→已重开新号并开通运营中；明确"新号开通(设备/手机号/实名/店铺/资质)由老板本人完成，星火不介入"<br>· 一、小红书运营定位："专业号/店铺已开通"＋"新号已开通·站内合规闭环运营中"<br>· 📅 运营计划：phase-goal 改"新号已开通·运营中"；时间线「新号重启筹备」doing→拆为「新号已开通」done(老板本人完成六关)＋「新号养号&内容运营中」doing<br>· 附《老号封号复盘与避坑清单.md》（老号踩雷5条＋新号对应避坑＋看板管理教训）<br>· 首页副标题→「第 23 次版本更新」</div></div>
       <div class="tl-item done"><div class="t">v20 · 2026/8/27 09:31 — 老板纠偏看板管理：①首页『小红书运营计划』补 08-27 当日『已发课07』done 行（此前错用模糊 doing 项 bury 今日完成，致"发了没更新"）②1.4 课07 状态→「已上传✅」、长文累计 7/30（第 20 次版本记录）</div><div class="d">· 根因：08-27 没沿用 08-24/25/26 的"每日一条 done 日行"模式，把当日完成埋进滚动 doing 项→老板上传后无干净行可翻。已修复并固化：每日上传回传后，①翻 1.4 状态 ②在运营计划补当日 done 日行，两条同步<br>· 首页副标题更新为「第 20 次版本更新」</div></div>
       <div class="tl-item done"><div class="t">v19 · 2026/8/27 09:20 — 爆款手法双保险：1.4「备注」列逐课补「爆款：XXX型」（与「结构」列一致），课01–10 全覆盖（第 19 次版本记录）</div><div class="d">· 原因：老板反馈"长文系列进度的手法没有备注好用的是什么爆款手法"——1.4 已有「结构」列，但为防缓存/漏看，同步在「备注」列写明爆款结构<br>· 课01反差对比型/课02步骤拆解型/课03悬念好奇型/课04真实故事型/课05步骤拆解型/课06痛点直击型/课07反差对比型/课08清单合集型/课09步骤拆解型/课10悬念好奇型<br>· 首页副标题更新为「第 19 次版本更新」</div></div>
